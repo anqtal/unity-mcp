@@ -27,7 +27,7 @@ namespace MCPForUnity.Editor.Services
             var toolTypes = TypeCache.GetTypesWithAttribute<McpForUnityToolAttribute>();
 
             // Fallback scan via AppDomain (slower but exhaustive; mirrors CommandRegistry behaviour)
-            var appDomainTypes = AppDomain.CurrentDomain.GetAssemblies()
+            var appDomainTypes = MCPForUnity.Runtime.Helpers.UnityAssembliesCompat.GetLoadedAssemblies()
                 .Where(a => !a.IsDynamic)
                 .SelectMany(a =>
                 {
