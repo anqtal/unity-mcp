@@ -715,6 +715,7 @@ namespace MCPForUnity.Editor.Helpers
                 new BoundsConverter(),
                 new Matrix4x4Converter(), // Fix #478: Safe Matrix4x4 serialization for Cinemachine
                 new UnityMathematicsConverter(), // Fix #1415: float3/quaternion swizzle properties made the default walk never finish
+                new TransformHandleConverter(), // Avoid traversing native transform hierarchies (upstream #1274).
                 new UnityEngineObjectConverter() // Handles serialization of references
             },
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,

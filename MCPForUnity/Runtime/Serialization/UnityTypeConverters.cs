@@ -268,6 +268,23 @@ namespace MCPForUnity.Runtime.Serialization
         }
     }
 
+    // TransformHandle exposes native child hierarchies rather than useful JSON data.
+    // Match by name to remain compatible with Unity versions without this type.
+    // Keep internal so third-party converter scanners do not register it globally.
+    internal class TransformHandleConverter : JsonConverter
+    {
+        public override bool CanRead => false;
+
+        public override bool CanConvert(Type objectType)
+            => objectType?.FullName == "UnityEngine.TransformHandle";
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            => writer.WriteNull();
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            => throw new NotSupportedException("TransformHandleConverter is write-only.");
+    }
+
     // Converter for UnityEngine.Object references (GameObjects, Components, Materials, Textures, etc.)
     // Intentionally internal: this converter is meant for MCP-internal serialization only.
     // Leaving it public lets third-party Newtonsoft converter scanners (e.g. jillejr's
